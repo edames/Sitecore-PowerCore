@@ -70,5 +70,42 @@ Function Create-Site ($siteName, $websiteUrl, $webroot, $port = 80)
     Start-sleep -milliseconds 1000
 }
 
+<#
+       .DESCRIPTION
+               Removes Application Pool in IIS
+#>
+Function Remove-AppPool($siteName)
+{
+    Write-Output "Site Name: $siteName"
+
+    $serverManager = New-Object Microsoft.Web.Administration.ServerManager;
+    if($serverManager.ApplicationPools[$siteName] -ne $NULL)
+    {
+      Write-Output "Remove App Pool.";
+      $serverManager.ApplicationPools.Remove($serverManager.ApplicationPools[$siteName]);
+      $serverManager.CommitChanges();
+      Start-sleep -milliseconds 1000
+    }
+}
+
+<#
+
+#>
+Function Remove-Site ($siteName)
+{
+    Write-Output "Site Name: $siteName"
+
+    $serverManager = New-Object Microsoft.Web.Administration.ServerManager;
+    if($serverManager.Sites[$siteName] -ne $NULL)
+    {
+      Write-Host "Remove site"
+      $serverManager.Sites.Remove($serverManager.Sites[$siteName])
+      $serverManager.CommitChanges();
+    }
+    Start-sleep -milliseconds 1000
+}
+
 Export-ModuleMember -function Create-AppPool
 Export-ModuleMember -function Create-Site
+Export-ModuleMember -function Remove-AppPool
+Export-ModuleMember -function Remove-Site
