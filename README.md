@@ -41,6 +41,8 @@ Used to create Sites / AppPools in IIS
 
 * Create-AppPool
 * Create-Site
+* Remove-AppPool
+* Remove-Site
 
 **SvnUtils.psm1**
 
